@@ -23,24 +23,42 @@ const styles = StyleSheet.create({
 
 export default class RandomJoke extends Component {
 
-    /** methods */
+    /**
+     * Method that fetches a new joke and adds it to the state
+     * @returns {Promise<void>}
+     */
     async handleJoke(){
         const res = await fetch("https://api.chucknorris.io/jokes/random");
         const {value} = await res.json();
         this.setState({joke:value});
     }
 
+    /**
+     * Method that stops the current interval and fetches a joke
+     * At the end it restarts the interval loop
+     * @returns {Promise<void>}
+     */
     async handlePress(){
         clearInterval(this.id);
         await this.handleJoke();
         this.start();
     }
 
+    /**
+     * Method that starts the setInterval
+     * that will fetch a new joke every 10 seconds
+     */
     start(){
         this.id = setInterval(()=>this.handleJoke(), 10000);
     }
 
-    /** life cycle methods */
+    /**
+     * Entry point of the component
+     *  -> creates the state with default values
+     *  -> sets the id to null
+     *
+     * @param props
+     */
     constructor(props){
         super(props);
 
@@ -50,6 +68,12 @@ export default class RandomJoke extends Component {
         this.id    = null;
     }
 
+    /**
+     * Render method that is immediately
+     *  called after constructor ends and called at any moment setState is invoked
+     *
+     * @returns {*}
+     */
     render(){
 
         const {joke, loaded} = this.state;
@@ -67,13 +91,23 @@ export default class RandomJoke extends Component {
         );
     }
 
+    /**
+     * Method called after the first render is called
+     *
+     * Fetches the initial joke, then sets the loaded to true and starts the interval
+     */
     componentDidMount(){
         this.handleJoke().then(()=>{
+            //la premiere blague est chargee
             this.setState({loaded: true});
             this.start();
         });
     }
 
+    /**
+     * Method that is called when the component will unmount.
+     * Stops the interval if there is one running
+     */
     componentWillUnmount(){
         clearInterval(this.id);
     }
