@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {StyleSheet, Alert, View, Text, TouchableHighlight} from "react-native";
+import {StyleSheet, Alert, View, Text, TouchableHighlight, Image} from "react-native";
 import LoadingIndicator from "../dummy/LoadingIndicator";
+import {Container, Content, Footer, Header} from "../dummy/layout/Layout";
 
 const styles = StyleSheet.create({
     container: {
@@ -18,6 +19,11 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 25,
         textAlign: "center"
+    },
+    image: {
+        resizeMode: 'contain',
+        width: 200,
+        height: 200
     }
 });
 
@@ -79,15 +85,28 @@ export default class RandomJoke extends Component {
         const {joke, loaded} = this.state;
 
         return (
-            <View style={styles.container}>
-                {
-                    loaded ?
-                        <TouchableHighlight style={styles.button} onPress={()=>this.handlePress()}>
-                            <Text style={styles.randomJoke}>{joke}</Text>
-                        </TouchableHighlight> :
-                        <LoadingIndicator title="Joke Loading..."/>
-                }
-            </View>
+            <Container>
+                <Header>
+                    <Text>Header</Text>
+                </Header>
+                <Content>
+                    <Image
+                        style={styles.image}
+                        source={{uri: "https://assets.chucknorris.host/img/chucknorris_logo_coloured_small@2x.png"}}
+                    />
+                    {
+                        loaded ?
+                            <TouchableHighlight style={styles.button} onPress={()=>this.handlePress()}>
+                                <Text style={styles.randomJoke}>{joke}</Text>
+                            </TouchableHighlight> :
+                            <LoadingIndicator title="Joke Loading..."/>
+                    }
+                </Content>
+                <Footer>
+                    <Text>Footer</Text>
+                </Footer>
+            </Container>
+
         );
     }
 
