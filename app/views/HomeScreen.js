@@ -28,7 +28,7 @@ export default class HomeScreen extends Component {
                 <Footer>
                     <Button
                         onPress={()=>{
-                            this.props.navigation.navigate("Category")
+                            this.props.navigation.navigate("Categories")
                         }}
                         title="Go to Category"
                     />
