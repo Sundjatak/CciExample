@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     },
     content: {
         alignItems: "center",
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
     },
     footer: {
         flexShrink: 0,

@@ -29,7 +29,6 @@ export default class CategoryScreen extends Component {
                     <List
                         list={categories}
                         onPress={(item)=>{
-                            Alert.alert(item)
                         }}
                     />
                 </Content>

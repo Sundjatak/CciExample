@@ -4,7 +4,6 @@ import {Text, TouchableHighlight, StyleSheet} from "react-native";
 const styles = StyleSheet.create({
     buttonText: {
         fontSize: 25,
-        textAlign: "center",
         padding: 10
     }
 });
@@ -25,7 +24,8 @@ export const Button = props => {
         onPress,
         title,
         backgroundColor = "blue",
-        color = "white"
+        color = "white",
+        textAlign = "center"
     } = props;
 
     return (
@@ -33,7 +33,7 @@ export const Button = props => {
             style={{backgroundColor}}
             onPress={onPress}
         >
-            <Text style={[{color}, styles.buttonText]}>{title}</Text>
+            <Text style={[{color, textAlign}, styles.buttonText]}>{title}</Text>
         </TouchableHighlight>
     )
 
