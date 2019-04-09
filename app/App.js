@@ -7,11 +7,11 @@
  */
 
 import React, {Component} from 'react';
-import MyGroceryList from "./components/smart/RandomJoke";
+import AppContainer from "./config";
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
-    return <MyGroceryList/>
+    return <AppContainer/>
   }
 }

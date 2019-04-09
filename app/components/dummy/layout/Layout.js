@@ -1,16 +1,24 @@
 import React from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
         justifyContent: "center",
+        width: "100%"
     },
     header: {
         flexShrink: 0,
         flexBasis: 75,
-        backgroundColor: "red"
+        backgroundColor: "red",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        padding: 10
+    },
+    headerText: {
+        fontSize: 25,
+        color: "white"
     },
     content: {
         alignItems: "center",
@@ -66,10 +74,10 @@ export const Content = props => {
  * @constructor
  */
 export const Header = props => {
-    const {children = null} = props;
+    const {title} = props;
     return (
         <View style={styles.header}>
-            {children}
+            <Text style={styles.headerText}>{title}</Text>
         </View>
     )
 };

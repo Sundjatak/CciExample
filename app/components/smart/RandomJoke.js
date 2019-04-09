@@ -86,9 +86,7 @@ export default class RandomJoke extends Component {
 
         return (
             <Container>
-                <Header>
-                    <Text>Header</Text>
-                </Header>
+                <Header title="Chuck Jokes"/>
                 <Content>
                     <Image
                         style={styles.image}
