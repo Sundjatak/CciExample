@@ -12,6 +12,13 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+ * Component that simplifies the usage of a FlatList with onPress features
+ *
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const List = props => {
     const {list, onPress} = props;
     return (

@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+ * Component that will be initially shown
+ *
+ * Shows the chuck norris image and gets a new random joke
+ */
 export default class HomeScreen extends Component {
     static navigationOptions = { title: "Home" };
 

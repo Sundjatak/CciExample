@@ -14,6 +14,13 @@ const styles = StyleSheet.create({
     }
 });
 
+/**
+ * Component used to show an indefinite loading indicator with a title
+ *
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 const LoadingIndicator = props => {
 
     const {title} = props;
