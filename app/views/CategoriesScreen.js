@@ -29,6 +29,7 @@ export default class CategoriesScreen extends Component {
                     <List
                         list={categories}
                         onPress={(item)=>{
+                            this.props.navigation.navigate("Category", { category: item });
                         }}
                     />
                 </Content>

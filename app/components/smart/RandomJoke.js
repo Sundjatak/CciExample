@@ -29,7 +29,8 @@ export default class RandomJoke extends Component {
      * @returns {Promise<void>}
      */
     async handleJoke(){
-        const {value} = await HttpService.Request("https://api.chucknorris.io/jokes/random");
+        const {url} = this.state;
+        const {value} = await HttpService.Request(url);
         this.setState({joke:value});
     }
 
@@ -62,9 +63,16 @@ export default class RandomJoke extends Component {
     constructor(props){
         super(props);
 
+        const {category = null} = this.props;
+
+        const state = { joke: "", loaded: false, url: "https://api.chucknorris.io/jokes/random" }
+
+        if(category){
+            state.url += `?category=${category}`
+        }
 
         /** creating state */
-        this.state = { joke: "", loaded: false };
+        this.state = state;
         this.id    = null;
     }
 
@@ -94,6 +102,7 @@ export default class RandomJoke extends Component {
      * Fetches the initial joke, then sets the loaded to true and starts the interval
      */
     componentDidMount(){
+
         this.handleJoke().then(()=>{
             //la premiere blague est chargee
             this.setState({loaded: true});
