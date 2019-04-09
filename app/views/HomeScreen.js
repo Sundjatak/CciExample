@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import {Button, Image, StyleSheet} from "react-native";
-import {Container, Content} from "../components/dummy/layout/Layout";
+import {Image, StyleSheet} from "react-native";
+import {Container, Content, Footer} from "../components/dummy/layout/Layout";
 import RandomJoke from "../components/smart/RandomJoke";
+import {Button} from "../components/dummy/Button/Button";
 
 const styles = StyleSheet.create({
     image: {
@@ -24,6 +25,14 @@ export default class HomeScreen extends Component {
                     />
                     <RandomJoke/>
                 </Content>
+                <Footer>
+                    <Button
+                        onPress={()=>{
+                            this.props.navigation.navigate("Category")
+                        }}
+                        title="Go to Category"
+                    />
+                </Footer>
             </Container>
         )
     }
