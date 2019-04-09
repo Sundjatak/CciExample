@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {StyleSheet, Alert, View, Text, TouchableHighlight, Image} from "react-native";
+import {StyleSheet, Text, TouchableHighlight} from "react-native";
 import LoadingIndicator from "../dummy/LoadingIndicator";
-import {Container, Content, Footer, Header} from "../dummy/layout/Layout";
+import HttpService from "../../services/http.service";
 
 const styles = StyleSheet.create({
     container: {
@@ -29,8 +29,7 @@ export default class RandomJoke extends Component {
      * @returns {Promise<void>}
      */
     async handleJoke(){
-        const res = await fetch("https://api.chucknorris.io/jokes/random");
-        const {value} = await res.json();
+        const {value} = await HttpService.Request("https://api.chucknorris.io/jokes/random");
         this.setState({joke:value});
     }
 
