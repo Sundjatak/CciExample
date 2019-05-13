@@ -7,11 +7,19 @@
  */
 
 import React, {Component} from 'react';
+import {Provider} from "mobx-react";
 import AppContainer from "./config";
+import stores from "./stores"
+
+
 
 type Props = {};
 export default class App extends Component<Props> {
   render() {
-    return <AppContainer/>
+    return (
+        <Provider {...stores}>
+            <AppContainer/>
+        </Provider>
+    )
   }
 }

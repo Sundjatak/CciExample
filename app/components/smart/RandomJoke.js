@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {StyleSheet, Text, TouchableHighlight} from "react-native";
 import LoadingIndicator from "../dummy/LoadingIndicator";
-import HttpService from "../../services/http.service";
-import {observer} from "mobx-react";
-import {observable, action, runInAction} from "mobx";
+import {inject, observer} from "mobx-react";
+import {action} from "mobx";
 
 const styles = StyleSheet.create({
     container: {
@@ -24,24 +23,19 @@ const styles = StyleSheet.create({
     }
 });
 
-@observer
+@inject('jokeStore') @observer
 export default class RandomJoke extends Component {
 
-
-    @observable joke = "";
-    @observable loaded = false;
-    @observable url = "https://api.chucknorris.io/jokes/random";
+    id = null;
 
     /**
      * Method that fetches a new joke and adds it to the state
      * @returns {Promise<void>}
      */
+    @action.bound
     async handleJoke(){
-        const {url} = this;
-        const {value} = await HttpService.Request(url);
-        runInAction(()=>{
-            this.joke = value;
-        });
+        const {jokeStore, category} = this.props;
+        jokeStore.fetchJoke(category);
     }
 
     /**
@@ -65,25 +59,6 @@ export default class RandomJoke extends Component {
     }
 
     /**
-     * Entry point of the component
-     *  -> creates the state with default values
-     *  -> sets the id to null
-     *
-     * @param props
-     */
-    constructor(props){
-        super(props);
-
-        const {category = null} = this.props;
-
-        if(category){
-            this.url += `?category=${category}`
-        }
-
-        this.id    = null;
-    }
-
-    /**
      * Render method that is immediately
      *  called after constructor ends and called at any moment setState is invoked
      *
@@ -91,12 +66,12 @@ export default class RandomJoke extends Component {
      */
     render(){
 
-        const {joke, loaded} = this;
+        const {jokeStore:{lastJoke:{value}, loaded}} = this.props;
 
         return (
                 loaded ?
                     <TouchableHighlight style={styles.button} onPress={this.handlePress}>
-                        <Text style={styles.randomJoke}>{joke}</Text>
+                        <Text style={styles.randomJoke}>{value}</Text>
                     </TouchableHighlight> :
                     <LoadingIndicator title="Joke Loading..."/>
 
@@ -112,7 +87,6 @@ export default class RandomJoke extends Component {
 
         this.handleJoke().then(()=>{
             //la premiere blague est chargee
-            this.loaded  = true;
             this.start();
         });
     }
