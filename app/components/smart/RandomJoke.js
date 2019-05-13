@@ -92,6 +92,14 @@ export default class RandomJoke extends Component {
     }
 
     componentWillReact(){
+        const {running} = this.props;
+        if(!running){
+            clearInterval(this.id);
+            this.id = null;
+        } else if(this.id === null){
+            this.start();
+        }
+
         console.log("Component is about to re-render");
     }
 

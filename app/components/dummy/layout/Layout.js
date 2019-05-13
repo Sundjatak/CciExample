@@ -26,8 +26,9 @@ const styles = StyleSheet.create({
     },
     footer: {
         flexShrink: 0,
-        flexBasis: 75,
-        backgroundColor: "red"
+        backgroundColor: "red",
+        flexDirection: "row",
+        justifyContent: "space-evenly"
     }
 });
 

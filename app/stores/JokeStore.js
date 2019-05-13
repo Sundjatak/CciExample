@@ -28,6 +28,12 @@ class JokeStore {
         return this.lastJoke.value !== "";
     }
 
+    async fetchAtLeastTen(){
+        while(this.jokes.length < 10){
+            await this.fetchJoke()
+        }
+    };
+
     fetchJoke = flow(function * (category = null){
         const url = category ?
             `${URLS.joke}?category=${category}` :

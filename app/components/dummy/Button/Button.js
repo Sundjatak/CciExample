@@ -25,12 +25,13 @@ export const Button = props => {
         title,
         backgroundColor = "blue",
         color = "white",
-        textAlign = "center"
+        textAlign = "center",
+        customStyles = {}
     } = props;
 
     return (
         <TouchableHighlight
-            style={{backgroundColor}}
+            style={[{backgroundColor}, customStyles]}
             onPress={onPress}
         >
             <Text style={[{color, textAlign}, styles.buttonText]}>{title}</Text>
