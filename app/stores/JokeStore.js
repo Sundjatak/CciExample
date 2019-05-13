@@ -1,15 +1,24 @@
 import {computed, flow, observable} from "mobx";
 import HttpService from "../services/http.service";
+import {Alert} from "react-native";
+
+const URLS = {
+    joke: "https://api.chucknorris.io/jokes/random",
+    category: "https://api.chucknorris.io/jokes/categories"
+};
 
 class JokeStore {
 
     @observable _jokes = new Map();
+    @observable _categories = [];
+
     @observable lastJoke = {
         value: ""
     };
 
-    @observable categories = new Set();
-    url = "https://api.chucknorris.io/jokes/random";
+    @computed get categories(){
+        return this._categories.slice();
+    }
 
     @computed get jokes(){
         return Array.from(this._jokes.values());
@@ -21,13 +30,18 @@ class JokeStore {
 
     fetchJoke = flow(function * (category = null){
         const url = category ?
-            `${this.url}?category=${category}` :
-            this.url;
+            `${URLS.joke}?category=${category}` :
+            URLS.joke;
 
         const {id, ...rest} = yield HttpService.Request(url);
 
         this.lastJoke = rest;
         this._jokes.set(id, rest);
+    });
+
+    fetchCategories = flow(function * (){
+        if(this.categories.length > 0) return;
+        this._categories = yield HttpService.Request(URLS.category);
     });
 
 }
