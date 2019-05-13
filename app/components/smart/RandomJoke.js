@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {StyleSheet, Text, TouchableHighlight} from "react-native";
 import LoadingIndicator from "../dummy/LoadingIndicator";
 import HttpService from "../../services/http.service";
+import {observer} from "mobx-react";
+import {observable, action, runInAction} from "mobx";
 
 const styles = StyleSheet.create({
     container: {
@@ -22,16 +24,24 @@ const styles = StyleSheet.create({
     }
 });
 
+@observer
 export default class RandomJoke extends Component {
+
+
+    @observable joke = "";
+    @observable loaded = false;
+    @observable url = "https://api.chucknorris.io/jokes/random";
 
     /**
      * Method that fetches a new joke and adds it to the state
      * @returns {Promise<void>}
      */
     async handleJoke(){
-        const {url} = this.state;
+        const {url} = this;
         const {value} = await HttpService.Request(url);
-        this.setState({joke:value});
+        runInAction(()=>{
+            this.joke = value;
+        });
     }
 
     /**
@@ -39,6 +49,7 @@ export default class RandomJoke extends Component {
      * At the end it restarts the interval loop
      * @returns {Promise<void>}
      */
+    @action.bound
     async handlePress(){
         clearInterval(this.id);
         await this.handleJoke();
@@ -50,7 +61,7 @@ export default class RandomJoke extends Component {
      * that will fetch a new joke every 10 seconds
      */
     start(){
-        this.id = setInterval(()=>this.handleJoke(), 10000);
+        this.id = setInterval(this.handleJoke, 10000);
     }
 
     /**
@@ -65,14 +76,10 @@ export default class RandomJoke extends Component {
 
         const {category = null} = this.props;
 
-        const state = { joke: "", loaded: false, url: "https://api.chucknorris.io/jokes/random" }
-
         if(category){
-            state.url += `?category=${category}`
+            this.url += `?category=${category}`
         }
 
-        /** creating state */
-        this.state = state;
         this.id    = null;
     }
 
@@ -84,11 +91,11 @@ export default class RandomJoke extends Component {
      */
     render(){
 
-        const {joke, loaded} = this.state;
+        const {joke, loaded} = this;
 
         return (
                 loaded ?
-                    <TouchableHighlight style={styles.button} onPress={()=>this.handlePress()}>
+                    <TouchableHighlight style={styles.button} onPress={this.handlePress}>
                         <Text style={styles.randomJoke}>{joke}</Text>
                     </TouchableHighlight> :
                     <LoadingIndicator title="Joke Loading..."/>
@@ -105,9 +112,13 @@ export default class RandomJoke extends Component {
 
         this.handleJoke().then(()=>{
             //la premiere blague est chargee
-            this.setState({loaded: true});
+            this.loaded  = true;
             this.start();
         });
+    }
+
+    componentWillReact(){
+        console.log("Component is about to re-render");
     }
 
     /**
